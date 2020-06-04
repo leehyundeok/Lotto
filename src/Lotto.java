@@ -10,8 +10,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.Random;
+import java.util.Scanner;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -37,6 +39,11 @@ public class Lotto extends JFrame implements MouseListener, KeyListener{
 	int[] arr =new int[7];
 	MyButton[] mbt = new MyButton[7];
 	
+	
+	JTextField[] RotNo = new JTextField[7];
+	
+	JLabel label = new JLabel("수동입력");
+	
 	JButton checkBtn= new JButton("해당회차로");
 	JTextField turnTxt = new JTextField();	
 	JLabel titleLbl = new JLabel("로또번호");
@@ -58,6 +65,10 @@ public class Lotto extends JFrame implements MouseListener, KeyListener{
 	JButton checkBtn2 = new JButton("랜덤번호받기");
 	
 	JLabel UserRank = new JLabel("");
+	
+	
+	
+	
 	
 	
 	@Test
@@ -94,29 +105,29 @@ public class Lotto extends JFrame implements MouseListener, KeyListener{
 		titleLbl.setBounds(10, 10, 150, 30);
 		getContentPane().add(titleLbl);		
 	
-		turnLbl.setBounds(20, (50+60+30), 400, 50);
+		turnLbl.setBounds(20, 200, 400, 50);
 		getContentPane().add(turnLbl);
 		turnTxt.setColumns(10);
-		turnTxt.setBounds(20, 200, 150, 50);
+		turnTxt.setBounds(20, 250, 150, 50);
 		getContentPane().add(turnTxt);
 		
-		checkBtn.setBounds(300, 200, 180, 50);
+		checkBtn.setBounds(300, 250, 180, 50);
 		getContentPane().add(checkBtn);
-		turnRbl.setBounds(300, 115, 300, 100);
+		turnRbl.setBounds(300, 180, 300, 100);
 		getContentPane().add(turnRbl);
 		
-		FirstAcc.setBounds(465, 115, 400, 100);
+		FirstAcc.setBounds(465, 180, 400, 100);
 		getContentPane().add(FirstAcc);
 		Date.setBounds(200, 10, 150, 30);
 		getContentPane().add(Date);
 		
-		turnRb2.setBounds(125,250, 300, 100);
+		turnRb2.setBounds(125,300, 300, 100);
 		getContentPane().add(turnRb2);
-		turnRb3.setBounds(125,300, 300, 100);
+		turnRb3.setBounds(125,350, 300, 100);
 		getContentPane().add(turnRb3);
-		FirstPrz.setBounds(315,250, 300, 100);
+		FirstPrz.setBounds(315,300, 300, 100);
 		getContentPane().add(FirstPrz);
-		totalSell.setBounds(315, 300, 300, 100);
+		totalSell.setBounds(315, 350, 300, 100);
 		getContentPane().add(totalSell);
 		
 		for(int j=0; j<rbt.length-1; j++) {
@@ -133,7 +144,16 @@ public class Lotto extends JFrame implements MouseListener, KeyListener{
 		getContentPane().add(checkBtn2);
 		UserRank.setBounds(20, 500, 180, 50);
 		getContentPane().add(UserRank);
+				
+		for(int i=0; i<RotNo.length; i++) {
+			RotNo[i] = new JTextField(""+(i));
+			int w1=65;
+			RotNo[i].setBounds((10+w1*i), 120, 50, 50);
+			getContentPane().add(RotNo[i]);
+		}
 		
+		label.setBounds(500,120, 150, 50);
+		getContentPane().add(label);
 		}
 	public void event() {
 		checkBtn.addMouseListener(this);
@@ -154,6 +174,11 @@ public class Lotto extends JFrame implements MouseListener, KeyListener{
 		turnTxt.setText("");
 	}
 	
+	void clearRotNo() {
+		for(int i=0;i<7;i++) {
+			RotNo[i].setText("");
+		}
+	}
 	void showResult(){
 		int count =0;
 		String turnNum = turnTxt.getText();
@@ -184,6 +209,28 @@ public class Lotto extends JFrame implements MouseListener, KeyListener{
 			
 			return;
 		}
+		String[] RotNu = new String[7];
+		int[] a = new int[7];
+		try {
+			for(int i=0;i<7;i++) {
+				RotNu[i] = RotNo[i].getText();
+				if(a[i]<0 || a[i]>45){
+					label.setText("번호를 다시 입력하세요");
+					clearRotNo();
+					clearTurnLbl();
+					clearTurnTxt();
+					return;
+				}
+			}
+			
+		}catch(Exception e){
+			label.setText("숫자를 입력하세요");
+			clearRotNo();
+			clearTurnLbl();
+			clearTurnTxt();
+			return;
+		}
+		
 		for(int i=0; i<arr.length-1; i++) {
 			 arr[i] = Integer.parseInt(String.valueOf(jo.get("drwtNo"+(i+1))));
 				if(arr[i]>40) {				
@@ -213,6 +260,8 @@ public class Lotto extends JFrame implements MouseListener, KeyListener{
 		
 		clearTurnTxt();
 		
+		compareRotNo();
+		
 		for(int i=0; i<arr.length; i++) {
 			for(int j=0; j<arr1.length; j++) {
 				if(arr[i]==arr1[j]) {
@@ -241,7 +290,7 @@ public class Lotto extends JFrame implements MouseListener, KeyListener{
 			break;
 		case 0:
 			UserRank.setText(String.valueOf("꼴등"+count+"개 당첨" ));
-		}
+		}		
 		
 		
 		} catch (Exception e) {
@@ -262,6 +311,39 @@ public class Lotto extends JFrame implements MouseListener, KeyListener{
 		for(int j=0; j<rbt.length; j++) {
 			rbt[j].setText(String.valueOf(arr1[j]));
 		}
+	}
+	void compareRotNo() {
+		int cont = 0;
+		for(int i=0;i<7;i++) {
+			for(int j=0;j<7;j++) {
+				if(RotNo[i].getText().equals(mbt[j].getText())) {
+					cont++;
+				}
+			}
+		}
+		switch(cont) {
+		case 6:
+			UserRank.setText(String.valueOf("1등 축하드립니다." ));
+			break;
+		case 5:
+			UserRank.setText(String.valueOf("2등"+cont+"개 당첨" ));
+			break;
+		case 4:
+			UserRank.setText(String.valueOf("3등"+cont+"개 당첨" ));
+			break;
+		case 3:
+			UserRank.setText(String.valueOf("4등"+cont+"개 당첨" ));
+			break;
+		case 2:
+			UserRank.setText(String.valueOf("5등"+cont+"개 당첨" ));
+			break;
+		case 1:
+			UserRank.setText(String.valueOf("6등"+cont+"개 당첨" ));
+			break;
+		case 0:
+			UserRank.setText(String.valueOf("꼴등"+cont+"개 당첨" ));
+		}	
+		
 	}
 	public static void setUIFont(javax.swing.plaf.FontUIResource f) {
 		Enumeration<Object> keys = UIManager.getDefaults().keys();
