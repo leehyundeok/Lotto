@@ -11,3 +11,4 @@ LottoProgram
 ![캡처](https://user-images.githubusercontent.com/62640249/86736210-4ed8fb80-c06e-11ea-9515-a7ce67314bb6.PNG)
 
 ##### 수동으로 입력한 번호와 회차번호 결과
+![image](https://user-images.githubusercontent.com/62640249/86738516-1b976c00-c070-11ea-9d55-ed435cef0d97.png)
