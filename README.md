@@ -10,3 +10,4 @@ LottoProgram
 ##### 랜덤으로 받은번호와 맞춘횟수
 ![캡처](https://user-images.githubusercontent.com/62640249/86736210-4ed8fb80-c06e-11ea-9515-a7ce67314bb6.PNG)
 
+##### 수동으로 입력한 번호와 회차번호 결과
