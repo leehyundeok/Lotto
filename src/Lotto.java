@@ -373,7 +373,6 @@ public class Lotto extends JFrame implements MouseListener, KeyListener{
 		Font f1 = Font.createFont(Font.TRUETYPE_FONT, new File(fType)); //  메소드에 throw를 추가해줌
 		setUIFont(new FontUIResource(f1.deriveFont(25f))); // 숫자뒤에 f를 붙히면 실수를 나타냄
 		
-		//System.out.printf("%f %d %d %d\n", 25f, 25, 25, 25);
 		new Lotto();
 	}
 	@Override
